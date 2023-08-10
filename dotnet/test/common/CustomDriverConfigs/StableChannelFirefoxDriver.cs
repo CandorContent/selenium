@@ -18,6 +18,11 @@ namespace OpenQA.Selenium.Firefox
         {
         }
 
+        public StableChannelFirefoxDriver(FirefoxDriverService service, FirefoxOptions options)
+            : base(service, options)
+        {
+        }
+
         public static FirefoxOptions DefaultOptions
         {
             get { return new FirefoxOptions() { AcceptInsecureCertificates = true }; }
