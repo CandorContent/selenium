@@ -9,7 +9,7 @@ Selenium Manager has been implemented as a CLI (Command-Line Interface) tool usi
 curl https://sh.rustup.rs -sSf | sh
 ```
 
-Alternatively, you can build it using [Bazel](https://bazel.build) by executing `bazel build //rust:selenium-manager` from the top-level directory of the Selenium repo (the same one where the `WORKSPACE` file is).
+Alternatively, you can build it using [Bazel](https://bazel.build) by executing `cargo` from the top-level directory of the Selenium repo (the same one where the `WORKSPACE` file is).
 
 ## Usage
 Selenium Manager can be executed using Cargo as follows:
