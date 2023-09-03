@@ -52,6 +52,8 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.15.0",
     "rimraf": "^2.7.1",
+    "selenium-manager": "^0.4.3",
+    "selenium-server": "^3.141.59",
     "selenium-webdriver": "^4.12.0",
     "source-map-explorer": "^2.5.3",
     "tmp": "^0.2.1",
