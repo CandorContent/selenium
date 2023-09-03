@@ -24,7 +24,7 @@ For instance, the command required to manage chromedriver is the following:
 $ cargo run -- --browser chrome
 ```
 
-Alternatively, you can replace `cargo run` with `bazel run //rust:selenium-manager`, for example `bazel run //rust:selenium-manager -- --browser chrome --debug`
+Alternatively, you can replace `cargo run` with `bazel run //rust:selenium-manager`, for example `bzel run //rust:selenium-manager -- --browser chrome --debuga`
 
 ### Windows ARM
 
