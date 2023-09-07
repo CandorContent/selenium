@@ -37,6 +37,7 @@ namespace OpenQA.Selenium.DevTools
         private Task dataReceiveTask;
         private bool isActive = false;
         private ClientWebSocket client = new ClientWebSocket();
+        private readonly SemaphoreSlim sendMethodSemaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebSocketConnection" /> class.
@@ -146,6 +147,8 @@ namespace OpenQA.Selenium.DevTools
             {
                 await this.dataReceiveTask;
             }
+
+            this.client.Dispose();
         }
 
         /// <summary>
@@ -157,7 +160,17 @@ namespace OpenQA.Selenium.DevTools
         {
             ArraySegment<byte> messageBuffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(data));
             this.Log($"SEND >>> {data}");
-            await this.client.SendAsync(messageBuffer, WebSocketMessageType.Text, endOfMessage: true, CancellationToken.None);
+
+            await sendMethodSemaphore.WaitAsync().ConfigureAwait(false);
+
+            try
+            {
+                await this.client.SendAsync(messageBuffer, WebSocketMessageType.Text, endOfMessage: true, CancellationToken.None);
+            }
+            finally
+            {
+                sendMethodSemaphore.Release();
+            }
         }
 
         /// <summary>
@@ -185,6 +198,10 @@ namespace OpenQA.Selenium.DevTools
             catch (OperationCanceledException)
             {
                 // An OperationCanceledException is normal upon task/token cancellation, so disregard it
+            }
+            catch (WebSocketException e)
+            {
+                this.Log($"Unexpected error during attempt at close: {e.Message}", DevToolsSessionLogLevel.Error);
             }
         }
 
@@ -264,7 +281,6 @@ namespace OpenQA.Selenium.DevTools
             }
             finally
             {
-                this.client.Dispose();
                 this.isActive = false;
             }
         }

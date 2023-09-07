@@ -322,7 +322,7 @@ namespace OpenQA.Selenium.DevTools
                 {
                     this.Domains.Target.TargetDetached -= this.OnTargetDetached;
                     this.pendingCommands.Clear();
-                    this.TerminateSocketConnection().GetAwaiter().GetResult();
+                    Task.Run(async () => await this.TerminateSocketConnection()).GetAwaiter().GetResult();
                 }
 
                 this.isDisposed = true;
